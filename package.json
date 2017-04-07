@@ -4,6 +4,7 @@
   "description": "A utility so I can check decks without having to go to the hearthpwn site <3",
   "main": "index.js",
   "dependencies": {
+    "cli-prompt": "^0.6.0",
     "commander": "^2.9.0",
     "hearthpwn-scraper": "^2.1.1"
   },

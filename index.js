@@ -35,7 +35,7 @@ if(options.heroes.length > 0) {
 	});
 };
 
-const moreInfo = () => {
+const logResults = () => {
 	decks.forEach((d) => {
 		console.log('* Name : ' + d.title);
 		console.log('* URL  : ' + d.url);
@@ -58,7 +58,7 @@ const fetchDecks = () => {
 			count ++;
 			return rdyDeck;
 		});
-		moreInfo();
+		logResults();
 	});
 };
 
