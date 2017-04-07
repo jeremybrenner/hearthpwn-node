@@ -1,6 +1,8 @@
 const hs       = require('hearthpwn-scraper');
 const commands = require('commander');
 const options  = { heroes: [] };
+let decks      = [];
+let count 	   = 0;
 
 // split class flag arguments
 const splitClasses = (val) => {
@@ -33,21 +35,36 @@ if(options.heroes.length > 0) {
 	});
 };
 
-// fetch relevant decks from hearthpwn
-hs.getPopularDecks(options)
-.then((decks) => {
-	console.log('\n\n*** Search Results ***');
-	console.log('=============================\n\n');
-	decks.map((deck) => {
-		console.log('* Name : ' + deck.title);
-		console.log('* URL  : ' + deck.url);
+const moreInfo = () => {
+	decks.forEach((d) => {
+		console.log('* Name : ' + d.title);
+		console.log('* URL  : ' + d.url);
+		console.log('* ID   : ' + d.id);
 		console.log('------------------------');
+	})
+};
+
+// fetch relevant decks from hearthpwn
+const fetchDecks = () => {
+	hs.getPopularDecks(options)
+	.then((results) => {
+		console.log('\n\n*** Search Results ***');
+		console.log('=============================\n\n');
+		decks = results.map((deck) => {
+			let rdyDeck = {};
+			rdyDeck.title = deck.title;
+			rdyDeck.url = deck.url;
+			rdyDeck.id = count;
+			count ++;
+			return rdyDeck;
+		});
+		moreInfo();
 	});
-})
-.then(()=> {
-	console.log('\n\n*** EXITING ***\n\n');
-	// shut down node process
-	process.exit();
-})
+};
+
+fetchDecks();
+
+
+
 
 
