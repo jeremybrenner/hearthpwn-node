@@ -14,9 +14,9 @@ commands
 	.parse(process.argv);
 
 // if classes are passed, set them to option for deck fetch
-// if(commands.classes) { 
-// 	options.heroes = commands.classes
-// }
+if(commands.classes) { 
+	options.heroes = commands.classes
+}
 
 // fetch relevant decks from hearthpwn
 hs.getPopularDecks().then((decks) => {
