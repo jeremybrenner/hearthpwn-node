@@ -6,27 +6,20 @@ let options  = { heroes: [] };
 let decks = [];
 let count = 0;
 
-// split class flag arguments
-const splitClasses = (val) => {
-	return val.split(',');
-} 
-
-// capitialize each class for logging
-const capitalize = (string) => {
-	return string.charAt(0).toUpperCase() + string.substring(1).toLowerCase();
-}
-
-// capture and parse command arguments
-commands
-	.version('0.0.1')
-	.option('-c, --classes [classes]', 'Filter decks by class', splitClasses)
-	.parse(process.argv);
-
-
-
 const handleValid = () => {
-	prompt('\n Which deck would you like to know more about ? [' + decks[0].id + ' - ' + decks[decks.length-1].id + '] :', (response) => {
-		console.log(response);
+	const first = parseInt(decks[0].id);
+	const last  = parseInt(decks[decks.length-1].id);
+	prompt('\n Which deck would you like to know more about ? [' + first + ' - ' + last + '] : ', (response) => {
+		const intId = parseInt(response) || 0;
+		if(intId <= 0 || intId > last) {
+			console.log('* ERROR: Please enter a valid deck ID [' + first + ' - ' + last + '] : ');
+			handleValid();
+		}else {
+			console.log('Valid option');
+			console.log(intId)
+			console.log(decks[intId]);
+			let url = decks[intId].url;
+		}
 	});
 };
 
@@ -62,15 +55,18 @@ const logResults = () => {
 const fetchDecks = () => {
 
 	// if classes are passed, set them to option for deck fetch
-	if(commands.classes) { 
-		options.heroes = commands.classes
-	}
+	if(commands.classes) options.heroes = commands.classes
 
 	// indicate search, log custom class options being passed
 	console.log('\nSearching for decks...');
 
 	if(options.heroes.length > 0) {
+
+		// capitialize each class for logging
+		const capitalize = (string) => { return string.charAt(0).toUpperCase() + string.substring(1).toLowerCase() };
+
 		console.log('\nWith the following classes :');
+
 		options.heroes.map((c) => { 
 			console.log(' * ' + capitalize(c)) 
 		});
@@ -92,7 +88,23 @@ const fetchDecks = () => {
 	});
 };
 
-fetchDecks();
+const parseArgs = () => {
+
+	// split class flag arguments
+	const splitClasses = (val) => { return val.split(',') }; 
+
+	// capture and parse command arguments
+	commands
+		.version('0.0.1')
+		.option('-c, --classes [classes]', 'Filter decks by class', splitClasses)
+		.parse(process.argv);
+
+	fetchDecks();
+}
+
+const init = () => { parseArgs() };
+
+init();
 
 
 
