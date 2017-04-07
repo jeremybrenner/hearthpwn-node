@@ -1,4 +1,5 @@
-const hs = require('hearthpwn-scraper');
+const hs      = require('hearthpwn-scraper');
+const command = require('commander');
 
 hs.getPopularDecks().then((decks) => {
 	console.log('\n\n*** The Popular Decks ***');
