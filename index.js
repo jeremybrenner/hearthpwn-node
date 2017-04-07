@@ -1,9 +1,8 @@
 const hs = require('hearthpwn-scraper');
-const warriorOpt = { heroes: ['warrior'] };
 
 hs.getPopularDecks().then((decks) => {
-	console.log('\nThe PopularDecks');
-	console.log('=============================\n');
+	console.log('\n\n*** The Popular Decks ***');
+	console.log('=============================\n\n');
 	decks.map((deck) => {
 		console.log('* Name : ' + deck.title);
 		console.log('* URL  : ' + deck.url);
