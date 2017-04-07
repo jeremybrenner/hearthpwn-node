@@ -3,15 +3,15 @@ const commands = require('commander');
 const options = { heroes: [] };
 
 // split class flag arguments
-// const splitClasses = (val) => {
-// 	return val.split(',');
-// } 
+const splitClasses = (val) => {
+	return val.split(',');
+} 
 
 // capture and parse command arguments
-// commands
-// 	.version('0.0.1')
-// 	.option('-c, --classes [classes]', 'Filter decks by class', splitClasses)
-// 	.parse(process.argv);
+commands
+	.version('0.0.1')
+	.option('-c, --classes [classes]', 'Filter decks by class', splitClasses)
+	.parse(process.argv);
 
 // if classes are passed, set them to option for deck fetch
 // if(commands.classes) { 
