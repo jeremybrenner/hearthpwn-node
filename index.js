@@ -1,6 +1,6 @@
-const hs      = require('hearthpwn-scraper');
+const hs       = require('hearthpwn-scraper');
 const commands = require('commander');
-const options = { heroes: [] };
+const options  = { heroes: [] };
 
 // split class flag arguments
 const splitClasses = (val) => {
