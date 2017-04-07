@@ -18,13 +18,17 @@ if(commands.classes) {
 	options.heroes = commands.classes
 }
 
+console.log('\nSearching for decks...');
+if(options.heroes.length > 0) {
+	console.log(' With the following classes => ')
+};
 // fetch relevant decks from hearthpwn
-hs.getPopularDecks().then((decks) => {
-	// console.log('\n\n*** The Popular Decks ***');
-	// console.log('=============================\n\n');
+hs.getPopularDecks(options).then((decks) => {
+	console.log('\n\n*** The Popular Decks ***');
+	console.log('=============================\n\n');
 	decks.map((deck) => {
-		// console.log('* Name : ' + deck.title);
-		// console.log('* URL  : ' + deck.url);
-		// console.log('------------------------');
+		console.log('* Name : ' + deck.title);
+		console.log('* URL  : ' + deck.url);
+		console.log('------------------------');
 	});
 });
