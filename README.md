@@ -15,8 +15,14 @@ npm install
 npm start
 ```
 
-### To pass custom class flags
+### To pass custom class flags from the directory
 ```
 npm start -- -c warrior,priest
 ```
+
+* Or using a bash alias
+```
+alias -c warrior,priest
+```
+
 NOTE: The -c flag expects mutliple values without no spaces between options ( warrior,rogue,druid etc.)
