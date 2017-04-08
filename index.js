@@ -6,18 +6,39 @@ let options  = { heroes: [] };
 let decks = [];
 let count = 0;
 
-const finalPrompt = () => {
-	// either exit or display deck list again
+const vaildYesOrNo = (response) => {
+	const valid = ['y','yes','n','no'];
+	let input = {};
+	input.value = response.toLowerCase();
+	if(valid.indexOf(input.value) === -1) input.valid = false;
+	if(valid.indexOf(input.value) !== -1) input.valid = true;
+	return input;
 };
 
-const handleValid = () => {
+const finalPrompt = () => {
+	// either exit or display deck list again
+	prompt('\n * Would you like to go back to the deck list? (Y/N) : ', (response) => {
+		let input = vaildYesOrNo(response);
+		if (input.valid === false) {
+			console.log('\n * ERROR: Invalid input : ' + input.value + ' * ');
+			deckDetailPrompt();
+		}else if(input.value === 'n' || input.valid === 'no') {
+			console.log('\n *** EXITING ***');
+			process.exit();
+		}else {
+			logResults();
+		}
+	})
+};
+
+const handleValidDetail = () => {
 	const first = parseInt(decks[0].id);
 	const last  = parseInt(decks[decks.length-1].id);
-	prompt('\n Which deck would you like to know more about ? [' + first + ' - ' + last + '] : \n\n', (response) => {
+	prompt('\n Which deck would you like to know more about ? [' + first + ' - ' + last + '] : ', (response) => {
 		const intId = parseInt(response) || 0;
 		if (intId <= 0 || intId > last) {
 			console.log('* ERROR: Please enter a valid deck ID [' + first + ' - ' + last + '] : ');
-			handleValid();
+			handleValidDetail();
 		}else {
 			let url = decks[intId].url;
 			hs.getDeckInfo(url).then((deck) => {
@@ -33,20 +54,17 @@ const handleValid = () => {
 	});
 };
 
-const promptUser = () => {
-	const valid = ['y','yes','n','no'];
-	prompt('\n => Would you like to know more? (Y/N): \n\n', (response) => {
-
-		let input = response.toLowerCase();
-
-		if (valid.indexOf(input) === -1) {
-			console.log('\n * ERROR: Invalid input : ' + input + ' * ');
-			promptUser();
-		}else if(input === valid[2] || input === valid[3]) {
-			console.log('\n *** EXITING, BYE! ***');
+const deckDetailPrompt = () => {
+	prompt('\n * Would you like to know more? (Y/N): ', (response) => {
+		let input = vaildYesOrNo(response);
+		if (input.valid === false) {
+			console.log('\n * ERROR: Invalid input : ' + input.value + ' * ');
+			deckDetailPrompt();
+		}else if(input.value === 'n' || input.valid === 'no') {
+			console.log('\n *** EXITING ***');
 			process.exit();
 		}else {
-			handleValid(input);
+			handleValidDetail();
 		}
 	})
 };
@@ -58,7 +76,7 @@ const logResults = () => {
 		console.log('* ID   : ' + d.id);
 		console.log('------------------------');
 	})
-	promptUser();
+	deckDetailPrompt();
 };
 
 // fetch relevant decks from hearthpwn
