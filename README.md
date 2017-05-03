@@ -1,5 +1,5 @@
 # hearthpwn-node
-A utility so I can check decks without having to go to the hearthpwn site <3 Supports custom class CLI options.
+A CLI scraper utility so I can check decks without having to go to the hearthpwn site <3 Supports custom class CLI options.
 
 ### Technologies:
 * hearthpwn-scraper
